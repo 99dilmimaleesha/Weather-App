@@ -1,90 +1,73 @@
-# Weather App
+# React + TypeScript + Vite
 
-A responsive React weather application built with TypeScript and Tailwind CSS that fetches real-time weather data using WeatherAPI.com.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
----
+Currently, two official plugins are available:
 
-## Features
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-* Fetch current weather by city name.
-* Displays temperature, humidity, wind speed, and weather conditions.
-* Fully responsive layout (mobile, tablet, desktop).
-* Beautiful background image with gradient overlay.
-* Loading and error handling.
+## React Compiler
 
----
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Technologies Used
+## Expanding the ESLint configuration
 
-* React (with TypeScript)
-* Tailwind CSS
-* Axios for API calls
-* WeatherAPI.com for weather data
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
----
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## Folder Structure
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-```
-src/
-├── api/
-│   └── weather.ts        # API call functions
-├── components/
-│   └── WeatherCard.tsx   # Weather UI card
-├── pages/
-│   └── WeatherApp.tsx    # Main screen / logic
-├── assets/
-│   └── weather.jpg       # Background image
-├── http.ts               # Axios instance for API
-└── App.tsx
-```
-
----
-
-## Installation
-
-1. Clone the repository:
-
-```bash
-git clone <repository-url>
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-2. Install dependencies:
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```bash
-npm install
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-3. Add your WeatherAPI.com API key in `api/weather.ts`:
-
-```ts
-const apiKey = "YOUR_API_KEY";
-```
-
-4. Run the app:
-
-```bash
-npm start
-```
-
----
-
-## Usage
-
-1. Enter a city name in the input field.
-2. Click the "Search" button.
-3. View current weather information including temperature, humidity, wind speed, and conditions.
-
----
-
-## Customization
-
-* Replace `weather.jpg` in `assets` with your preferred background image.
-* Adjust gradient overlay opacity in `WeatherApp.tsx` for better readability.
-
----
-
-## License
-
-This project is licensed under the MIT License.
-
